@@ -24,5 +24,5 @@ export class Handle extends Elevated.Serializable {
 }
 
 export const builders = [
-    () => new Elevated.Builder("UserIdentity.Handle", (initializer?: any) => new Handle(initializer))
+    () => new Elevated.Builder("Actor.Handle", (initializer?: any) => new Handle(initializer))
 ];

@@ -1,10 +1,10 @@
-import * as UserIdentity from './UserIdentity';
+import * as Actor from './Actor';
 import * as Outcome from './Outcome';
 
 import * as Elevated from 'typescript-elevated-objects';
 
 export const factory = new Elevated.Factory([
-    ... UserIdentity.builders,
+    ... Actor.builders,
     ... Outcome.builders,
 ]);
 
@@ -15,7 +15,7 @@ export * from './Local';
 export * from './Remote';
 export * from './Resource';
 export * from './State';
-export * from './UserIdentity';
+export * from './Actor';
 
 export * as Contact from './Contact';
 export * as Outcome from './Outcome';

@@ -3,7 +3,7 @@ import * as MomentJS from 'moment';
 import moment from 'moment';
 
 import * as Elevated from 'typescript-elevated-objects';
-import * as UserIdentity from './UserIdentity';
+import * as Actor from './Actor';
 import { Effect } from './Effect';
 import { Outcome } from './Outcome';
 import { Resource } from './Resource';
@@ -12,7 +12,7 @@ import { State } from './State';
 export abstract class Action<ResourceT extends Resource> extends Elevated.Serializable {
     nonce: string = uuidv4();
     when: MomentJS.Moment = moment();
-    who?: UserIdentity.Handle;
+    who?: Actor.Handle;
     target?: ResourceT;
     effect?: Effect = Effect.Ready;
     outcome?: Outcome;
@@ -23,7 +23,7 @@ export abstract class Action<ResourceT extends Resource> extends Elevated.Serial
         visitor.beginObject(this);
         visitor.primitive<string>(this, 'nonce');
         visitor.primitive<MomentJS.Moment>(this, 'when', moment);
-        visitor.scalar<UserIdentity.Handle>(this, 'who');
+        visitor.scalar<Actor.Handle>(this, 'who');
         visitor.scalar<ResourceT>(this, 'target');
         visitor.primitive<Effect>(this, 'effect');
         visitor.scalar<Outcome>(this, 'outcome');
@@ -44,7 +44,7 @@ export abstract class Action<ResourceT extends Resource> extends Elevated.Serial
         return this;
     }
 
-    abstract isAuthorized(token: any, user: any, actor: UserIdentity.Handle): boolean;
+    abstract isAuthorized(token: any, user: any, actor: Actor.Handle): boolean;
     abstract execute(resource: ResourceT, state: State<ResourceT>): Promise<this>;
 
     reconcile(last?: Action<ResourceT>): Action<ResourceT> {
