@@ -3,8 +3,7 @@ import * as MomentJS from 'moment';
 import moment from 'moment';
 
 import * as Elevated from 'typescript-elevated-objects';
-import * as Contact from './Contact';
-import { Actor } from './Actor';
+import * as UserIdentity from './UserIdentity';
 import { Effect } from './Effect';
 import { Outcome } from './Outcome';
 import { Resource } from './Resource';
@@ -13,7 +12,7 @@ import { State } from './State';
 export abstract class Action<ResourceT extends Resource> extends Elevated.Serializable {
     nonce: string = uuidv4();
     when: MomentJS.Moment = moment();
-    who?: Actor;
+    who?: UserIdentity.Handle;
     target?: ResourceT;
     effect?: Effect = Effect.Ready;
     outcome?: Outcome;
@@ -24,7 +23,7 @@ export abstract class Action<ResourceT extends Resource> extends Elevated.Serial
         visitor.beginObject(this);
         visitor.primitive<string>(this, 'nonce');
         visitor.primitive<MomentJS.Moment>(this, 'when', moment);
-        visitor.scalar<Actor>(this, 'who');
+        visitor.scalar<UserIdentity.Handle>(this, 'who');
         visitor.scalar<ResourceT>(this, 'target');
         visitor.primitive<Effect>(this, 'effect');
         visitor.scalar<Outcome>(this, 'outcome');
@@ -32,8 +31,8 @@ export abstract class Action<ResourceT extends Resource> extends Elevated.Serial
     }
 
     isMemoFor(other: Action<ResourceT>):boolean { 
-        if(this.who?.getId() !== other.who?.getId()) {
-            console.log(`${this.nonce} getId mismatch ${this.who?.getId()} != ${other.who?.getId()}`);
+        if(this.who?.sameAs(other.who)) {
+            console.log(`${this.nonce} getId mismatch ${this.who?.getSystemId()} != ${other.who?.getSystemId()}`);
             return false;
         }
         return true;
@@ -45,7 +44,7 @@ export abstract class Action<ResourceT extends Resource> extends Elevated.Serial
         return this;
     }
 
-    abstract isAuthorized(token: any, user: any, contact: Contact.Profile): boolean;
+    abstract isAuthorized(token: any, user: any, actor: UserIdentity.Handle): boolean;
     abstract execute(resource: ResourceT, state: State<ResourceT>): Promise<this>;
 
     reconcile(last?: Action<ResourceT>): Action<ResourceT> {

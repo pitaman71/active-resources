@@ -1,9 +1,6 @@
 import * as Elevated from 'typescript-elevated-objects';
-import * as Resource from './Resource';
 
-import { Actor } from './Actor';
-
-export class Handle extends Actor {
+export class Handle extends Elevated.Serializable {
     oktaUserId?: string;
     testUserId?: string;
     displayName?: string;

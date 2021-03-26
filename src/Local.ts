@@ -1,7 +1,7 @@
 import * as Elevated from 'typescript-elevated-objects';
 import { Task } from 'typescript-task-tuning';
 import { Action } from './Action';
-import { Actor } from './Actor';
+import * as UserIdentity from './UserIdentity';
 import { Effect } from './Effect';
 import { Listener } from './Listener';
 import { Resource } from './Resource';
@@ -15,7 +15,7 @@ export abstract class Local<ResourceT extends Resource, StateT extends State<Res
     factory: Elevated.Factory;
     resource: ResourceT;
     state: StateT;
-    actor: Actor;
+    actor: UserIdentity.Handle;
     interval: any;
     beforeListeners: Listener<ResourceT>[] = [];
     afterListeners: Listener<ResourceT>[] = [];
@@ -24,7 +24,7 @@ export abstract class Local<ResourceT extends Resource, StateT extends State<Res
         factory: Elevated.Factory,
         resource: ResourceT,
         state: StateT,
-        actor: Actor
+        actor: UserIdentity.Handle
     ) {
         this.factory = factory;
         this.resource = resource;
@@ -67,7 +67,7 @@ export abstract class Local<ResourceT extends Resource, StateT extends State<Res
 
     execute<ActionT extends Action<ResourceT>>(
         authorization: any,
-        who: Actor,
+        who: UserIdentity.Handle,
         action: ActionT
     ): Promise<ActionT> {
         this.beforeListeners

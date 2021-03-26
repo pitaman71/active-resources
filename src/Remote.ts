@@ -1,7 +1,7 @@
 import { Task } from 'typescript-task-tuning';
 import * as Elevated from 'typescript-elevated-objects';
 import { Action } from './Action';
-import { Actor } from './Actor';
+import * as UserIdentity from './UserIdentity';
 import { Resource } from './Resource';
 import * as Outcome from './Outcome';
 
@@ -39,7 +39,7 @@ export abstract class Remote<ResourceT extends Resource> {
 
     send<ActionT extends Action<ResourceT>>(
         authorization: any, 
-        who: Actor|undefined,
+        who: UserIdentity.Handle,
         action: ActionT): Promise<ActionT> 
     {
         const restUri = this.geturi(action);

@@ -3,7 +3,7 @@ import fs from 'fs';
 import { Task } from 'typescript-task-tuning';
 import * as Elevated from 'typescript-elevated-objects';
 import { Action } from './Action';
-import { Actor } from './Actor';
+import * as UserIdentity from './UserIdentity';
 import { Local } from './Local';
 import { Resource } from './Resource';
 
@@ -77,7 +77,7 @@ export abstract class State<ResourceT extends Resource> extends Elevated.Seriali
 
     tick(
         authorization: any,
-        who: Actor,
+        who: UserIdentity.Handle,
         client: Local<ResourceT, this>
     ): void { }
 
