@@ -4,7 +4,7 @@ export class Handle extends Elevated.Serializable {
     displayName?: string;
     systemId?: Object;
 
-    getClassSpec() { return "Identity.Handle"; }
+    getClassSpec() { return "Actor.Handle"; }
 
     constructor(initializer?: any) { super(); this.overlay(... initializer ? [ initializer ] : []); }
 

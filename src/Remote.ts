@@ -39,7 +39,7 @@ export abstract class Remote<ResourceT extends Resource> {
 
     send<ActionT extends Action<ResourceT>>(
         authorization: any, 
-        who: Actor.Handle,
+        who: Actor.Handle|undefined,
         action: ActionT): Promise<ActionT> 
     {
         const restUri = this.geturi(action);
