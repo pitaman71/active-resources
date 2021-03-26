@@ -15,7 +15,7 @@ export * from './Local';
 export * from './Remote';
 export * from './Resource';
 export * from './State';
-export * from './Actor';
 
+export * as Actor from './Actor';
 export * as Contact from './Contact';
 export * as Outcome from './Outcome';
